@@ -1,15 +1,15 @@
 #!/usr/bin/env sh
 
-RC_PREFIX=${HOME}"/.rc/"
-LOG=${RC_PREFIX}"config.log"
+RC_PREFIX=${HOME}"/.rc"
+LOG=${RC_PREFIX}"/config.log"
 
 GIT="git"
-REPO_PREFIX="https://github.com/cwahbong/."
+REPO_PREFIX="https://github.com/cwahbong"
 
 REPOS="vim tmux"
 
 git_clone () {
-	${GIT} clone ${REPO_PREFIX}${1} ${RC_PREFIX}${1} 2>> $LOG
+	${GIT} clone ${REPO_PREFIX}/.${1} ${RC_PREFIX}/${1} 2>> $LOG
 	ret=$?
 	if [ $ret -ne 0 ]; then
 		echo "Failed while git cloning ${1} config."
@@ -18,7 +18,8 @@ git_clone () {
 }
 
 repo_config_install () {
-	${RC_PREFIX}${1}/config.sh install 2>> $LOG
+	REPO_PREFIX=${RC_PREFIX}/${1}
+	${REPO_PREFIX}/config.sh install ${REPO_PREFIX} 2>> $LOG
 	ret=$?
 	if [ $ret -ne 0 ]; then
 		echo "There is something wrong while installing ${1} config."
