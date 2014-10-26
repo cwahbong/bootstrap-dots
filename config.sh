@@ -18,8 +18,8 @@ git_clone () {
 }
 
 repo_config_install () {
-	REPO_PREFIX=${RC_PREFIX}/${1}
-	${REPO_PREFIX}/config.sh install ${REPO_PREFIX} 2>> $LOG
+	CONFIG_PREFIX=${RC_PREFIX}/${1}
+	${CONFIG_PREFIX}/config.sh install ${CONFIG_PREFIX} 2>> $LOG
 	ret=$?
 	if [ $ret -ne 0 ]; then
 		echo "There is something wrong while installing ${1} config."
