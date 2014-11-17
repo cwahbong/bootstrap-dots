@@ -1,37 +1,46 @@
 #!/usr/bin/env sh
+set -u
 
-RC_PREFIX=${HOME}"/.rc"
-LOG=${RC_PREFIX}"/config.log"
+ECHO='echo -e'
 
-GIT="git"
-REPO_PREFIX="https://github.com/cwahbong"
+INFO='[INFO] '
+WARN='\e[0;33m[WARN]\e[0;m '
+ERROR='\e[0;31m[ERROR]\e[0;m'
 
-REPOS="vim tmux"
+RC_PREFIX="${HOME}/.rc"
+LOG="${RC_PREFIX}/config.log"
+
+REPO_PREFIX='https://github.com/cwahbong'
+
+REPOS='vim tmux'
 
 git_clone () {
-	${GIT} clone ${REPO_PREFIX}/.${1} ${RC_PREFIX}/${1} 2>> $LOG
-	ret=$?
-	if [ $ret -ne 0 ]; then
-		echo "Failed while git cloning ${1} config."
+	if [ -d "${RC_PREFIX}/${1}" ]; then
+		$ECHO "$WARN" "Directory exists, skip cloning ${1} config."
+		return 0
 	fi
-	return $ret
+
+	$ECHO $INFO "Cloning ${1} config..."
+	if ! git clone "${REPO_PREFIX}/.${1}" "${RC_PREFIX}/${1}" 2>> $LOG; then
+		$ECHO "$ERROR" "Failed while git cloning ${1} config."
+		return 1
+	fi
 }
 
 repo_config_install () {
-	CONFIG_PREFIX=${RC_PREFIX}/${1}
-	${CONFIG_PREFIX}/config.sh install ${CONFIG_PREFIX} 2>> $LOG
-	ret=$?
-	if [ $ret -ne 0 ]; then
-		echo "There is something wrong while installing ${1} config."
+	CONFIG_PREFIX="${RC_PREFIX}/${1}"
+
+	$ECHO "$INFO" "Installing ${1} config..."
+	if ! "${CONFIG_PREFIX}/config.sh" install "${CONFIG_PREFIX}" ; then
+		$ECHO "$ERROR" "There is something wrong while installing ${1} config."
+		return 1
 	fi
-	return $ret
 }
 
 CONFIG_CLONE () {
 	for repo in $REPOS; do
 		git_clone $repo
 	done
-	return 0
 }
 
 CONFIG_INSTALL () {
@@ -39,30 +48,26 @@ CONFIG_INSTALL () {
 	for repo in $REPOS; do
 		repo_config_install $repo
 	done
-	return 0
 }
 
 CONFIG_HELP () {
 	echo 'Usage: config.sh {clone|install|uninstall}'
-	return $(($? || $#))
 }
 
 OP=${1}
 shift
 case ${OP} in
-	"clone")
+	clone)
 		CONFIG_CLONE $@
 		;;
-	"install")
+	install)
 		CONFIG_INSTALL $@
 		;;
-	"help")
+	help)
 		CONFIG_HELP $@
 		;;
 	*)
 		CONFIG_HELP $@
-		exit $(($? || 1))
+		exit 1
 		;;
 esac
-exit $?
-
