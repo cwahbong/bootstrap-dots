@@ -20,8 +20,8 @@ git_clone () {
 		return 0
 	fi
 
-	$ECHO $INFO "Cloning ${1} config..."
-	if ! git clone "${REPO_PREFIX}/.${1}" "${RC_PREFIX}/${1}" 2>> $LOG; then
+	$ECHO "$INFO" "Cloning ${1} config..."
+	if ! git clone "${REPO_PREFIX}/.${1}" "${RC_PREFIX}/${1}" 2>> "$LOG"; then
 		$ECHO "$ERROR" "Failed while git cloning ${1} config."
 		return 1
 	fi
@@ -39,14 +39,14 @@ repo_config_install () {
 
 CONFIG_CLONE () {
 	for repo in $REPOS; do
-		git_clone $repo
+		git_clone "$repo"
 	done
 }
 
 CONFIG_INSTALL () {
 	CONFIG_CLONE
 	for repo in $REPOS; do
-		repo_config_install $repo
+		repo_config_install "$repo"
 	done
 }
 
@@ -58,16 +58,16 @@ OP=${1}
 shift
 case ${OP} in
 	clone)
-		CONFIG_CLONE $@
+		CONFIG_CLONE "$@"
 		;;
 	install)
-		CONFIG_INSTALL $@
+		CONFIG_INSTALL "$@"
 		;;
 	help)
-		CONFIG_HELP $@
+		CONFIG_HELP "$@"
 		;;
 	*)
-		CONFIG_HELP $@
+		CONFIG_HELP "$@"
 		exit 1
 		;;
 esac
