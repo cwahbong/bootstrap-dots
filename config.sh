@@ -25,7 +25,7 @@ git_clone () {
 	fi
 
 	message "$INFO" "Cloning ${1} config..."
-	if ! git clone "${REPO_PREFIX}/.${1}" "${RC_PREFIX}/${1}" 2>> "$LOG"; then
+	if ! git clone "${REPO_PREFIX}/.rc.${1}" "${RC_PREFIX}/${1}" 2>> "$LOG"; then
 		message "$ERROR" "Failed while git cloning ${1} config."
 		return 1
 	fi
