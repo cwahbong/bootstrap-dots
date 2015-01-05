@@ -12,7 +12,7 @@ LOG="${RC_PREFIX}/config.log"
 
 REPO_PREFIX='https://github.com/cwahbong'
 
-REPOS='vim tmux dircolors gitconfig'
+REPOS='vim tmux dircolors gitconfig zsh'
 
 message() {
 	printf "%-20b %s\n" "$@"
