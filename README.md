@@ -3,12 +3,12 @@
 
 A meta repository for all config files.  Currently the following configs are included, in different repositories.
 
-* dircolors
-* gitconfig
-* tig
-* tmux
-* vim
-* zsh
+* [dircolors](../../../.rc.dircolors/)
+* [gitconfig](../../../.rc.gitconfig/)
+* [tig](../../../.rc.tig)
+* [tmux](../../../.rc.tmux)
+* [vim](../../../.rc.vim)
+* [zsh](../../../.rc.zsh)
 
 The name of these repositories are `.rc.<COFIG_NAME>`, which is also a github
 repository.  For example, the config files of dircolors are in `cwahbong/.rc.dircolors`.
