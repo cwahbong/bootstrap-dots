@@ -1,5 +1,5 @@
 GIT_REMOTE_ORIGIN_URL = $(shell git config --get remote.origin.url)
-GITREPO_PREFIX = $(patsubst %.git, %., $(GIT_REMOTE_ORIGIN_URL))
+GITREPO_PREFIX = $(patsubst %.git,%.,$(GIT_REMOTE_ORIGIN_URL))
 
 COMMANDS = all update install clean
 SUBDIRS = \
